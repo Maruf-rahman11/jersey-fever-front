@@ -1,0 +1,25 @@
+@import "tailwindcss";
+ @plugin "daisyui" {
+   themes: light --default;
+ }
+
+ *{
+  font-family: "orbitron", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+ }
+
+@font-face {
+  font-family: "Druk";
+  src: url("./assets/VtksPoster-reox.ttf") format("truetype");
+  
+}
+
+.header {
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 600;
+}
+
+
+
+
