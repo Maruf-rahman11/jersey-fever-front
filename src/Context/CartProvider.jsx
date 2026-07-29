@@ -3,24 +3,24 @@ import CartContext from "./CartContext";
 
 
 const getInitialCart = () => {
-  return JSON.parse(localStorage.getItem("cart")) || [];
+  return JSON.parse(localStorage.getItem("myCart")) || [];
 };
 
 const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState(getInitialCart);
+  const [myCart, setMyCart] = useState(getInitialCart);
 
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
+    localStorage.setItem("myCart", JSON.stringify(myCart));
+  }, [myCart]);
 
   const addToCart = (shoe) => {
-    setCart(prev => {
+    setMyCart(prev => {
       return [...prev, { ...shoe}];
     });
   };
 
   const removeFromCart = (id, size) => {
-    setCart((prev) =>
+    setMyCart((prev) =>
       prev.filter(
         (item) => !(item._id === id && item.size === size)
       )
@@ -28,10 +28,10 @@ const CartProvider = ({ children }) => {
   };
   
 
-  const clearCart = () => setCart([]);
+  const clearCart = () => setMyCart([]);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart }}>
+    <CartContext.Provider value={{ myCart, addToCart, removeFromCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );

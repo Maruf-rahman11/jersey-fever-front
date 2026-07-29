@@ -8,7 +8,7 @@ import CartContext from "../Context/CartContext";
 
 const Cart = () => {
   
-  const {removeFromCart, cart} = use(CartContext)
+  const {removeFromCart, myCart} = use(CartContext)
 
   
 
@@ -18,13 +18,13 @@ const Cart = () => {
    
   };
 
-  const total = cart.reduce(
+  const total = myCart.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
 
 
-  if(cart.length <= 0) return <div className="flex  my-25 flex-col justify-center items-center">
+  if(myCart.length <= 0) return <div className="flex  my-25 flex-col justify-center items-center">
      <p className="flex justify-center items-center mb-5 text-amber-50 text-4xl">Cart empty!!!</p>
   <Link to={'/'} className="btn cursor-pointer hover:text-amber-50 hover:bg-black">Continue Shopping</Link>
   </div>
@@ -32,7 +32,7 @@ const Cart = () => {
 
   return (
     <div className="mt-20">
-      {cart.map(item => (
+      {myCart.map(item => (
         <div>
             <div className="flex mx-6  gap-3  items-start " key={item._id + item.size}>
             <img className="aspect-square w-4/12 lg:w-2/12 rounded overflow-hidden" src={item.image} alt="" srcset="" />

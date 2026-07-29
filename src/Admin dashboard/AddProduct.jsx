@@ -1,9 +1,11 @@
 import { useState } from "react";
 import UseAxiosSecure from "../Hooks/UseAxiosSecure";
+import useAxios from "../hooks/UseAxios";
+import Swal from "sweetalert2";
 
 const AddProduct = () => {
     const [loading, setLoading] = useState(false);
-    const axiosSecure = UseAxiosSecure();
+    const axios = useAxios();
     const [previewImages, setPreviewImages] = useState([]);
     const [sizes, setSizes] = useState({});
     const [newSize, setNewSize] = useState("");
@@ -14,6 +16,7 @@ const AddProduct = () => {
         season: "",
         price: "",
         discountPrice: "",
+        preOrder: false,
         costPrice: "",
         description: "",
         images: "",
@@ -154,35 +157,33 @@ const AddProduct = () => {
         };
         console.log(productData);
 
-        // try {
-        //   await axiosSecure.post("/shoes", productData);
+        try {
+          await axios.post("/products", productData);
 
-        //   Swal.fire("Success", "Product added", "success");
+          Swal.fire("Success", "Product added", "success");
 
-        //   // RESET
-        //   setForm({
-        //     name: "",
-        //     category: "",
-        //     variant: "",
-        //     price: "",
-        //     discountPrice: "",
-        //     costPrice: "",
-        //     description: "",
-        //     images: "",
-        //     popular: false,
-        //     preOrder: false,
-        //     videoUrl: "",
-        //     isLive: false,
-        //   });
+          // RESET
+          setForm({
+        name: "",
+        category: "",
+        edition: "",
+        season: "",
+        price: "",
+        discountPrice: "",
+        preOrder: false,
+        costPrice: "",
+        description: "",
+        images: "",
+        popular: false,
+        isLive: false,
+        });
 
-        //   setVariants([]);
-        //   setPreviewImages([]);
-        //   setSimpleStock(0);
-        // } catch (err) {
-        //   Swal.fire("Error", "Failed", "error");
-        // } finally {
-        //   setLoading(false);
-        // }
+          setPreviewImages([]);
+        } catch (err) {
+          Swal.fire("Error", "Failed", "error");
+        } finally {
+          setLoading(false);
+        }
     };
 
     if (loading) {
@@ -254,9 +255,9 @@ const AddProduct = () => {
                             className="w-full p-3 bg-black/10 rounded"
                         >
                             <option value="">Select variant</option>
-                            <option value="fanEdition">Fan Edition</option>
-                            <option value="playerEdition">Player Edition</option>
-                            <option value="retro">Retro</option>
+                            <option value="FAN">Fan Edition</option>
+                            <option value="Player">Player Edition</option>
+                            <option value="Retro">Retro</option>
                         </select>
                     )}
 
@@ -309,6 +310,16 @@ const AddProduct = () => {
                             onChange={handleChange}
                         />
                         <label>Website visibility</label>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <input
+                            type="checkbox"
+                            onKeyDown={handleNavigation}
+                            name="preOrder"
+                            checked={form.preOrder}
+                            onChange={handleChange}
+                        />
+                        <label>Pre Order Only</label>
                     </div>
 
                     {/* PRICE */}

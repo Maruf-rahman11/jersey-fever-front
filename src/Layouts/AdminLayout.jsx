@@ -82,7 +82,7 @@ const AdminLayout = () => {
                             <Link to={'/'}><FaArrowLeft /> Go Back to Home</Link>
                         </li>
                         <li className='hover:bg-amber-50 text-xl hover:text-black'>
-                            <NavLink to="/adminLayout/allShoes">
+                            <NavLink to="/adminDashboard/allItems">
                                 <GiConverseShoe className="inline-block mr-2 " />
                                 All Items
                             </NavLink>

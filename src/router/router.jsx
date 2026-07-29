@@ -7,6 +7,7 @@ import AdminLayout from '../Layouts/AdminLayout';
 import AddProduct from '../Admin dashboard/AddProduct';
 import Cart from '../Pages/Cart';
 import DeliveryPage from '../Pages/DeliveryPage';
+import AllItems from '../Admin dashboard/AllItems';
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
         element: <ProductDetails></ProductDetails>
       },
       {
-        path: '/AllProducts',
+        path: '/allProducts',
         element: <AllProducts></AllProducts>
       },
       {
@@ -48,8 +49,8 @@ const router = createBrowserRouter([
         element: <AllProducts></AllProducts>
       },
       {
-        index: '/adminDashboard/allProducts',
-        element: <AllProducts></AllProducts>
+        path: '/adminDashboard/allItems',
+        element: <AllItems></AllItems>
       },
       {
         path: '/adminDashboard/addProduct',
