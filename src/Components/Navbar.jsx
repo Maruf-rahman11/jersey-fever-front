@@ -44,11 +44,12 @@ const Navbar = () => {
             <ul className="menu bg-base-200/95 text-orange-500 min-h-full w-70 p-4">
             <p className="text-2xl text-base-content font-semibold mb-6">JERSEY FEVER </p>
               <Link to="/"><li className="mb-3 font-semibold" >HOME</li></Link>
-              <Link to="/allCollection"><li className="mb-3 font-semibold">COLLECTION</li></Link>
-              <Link to="/allCollection"><li className="mb-3 font-semibold">FAN EDITION</li></Link>
-              <Link to="/allCollection"><li className="mb-3 font-semibold">PLAYER EDITION</li></Link>
-              <Link to="/allCollection"><li className="mb-3 font-semibold">RETRO KIT</li></Link>
-              
+              <Link to="/allProducts"><li className="mb-3 font-semibold">COLLECTION</li></Link>
+              <Link to="/allJerseys"><li className="mb-3 font-semibold">JERSEY</li></Link>
+              <Link to="/allTrousers"><li className="mb-3 font-semibold">TROUSER</li></Link>
+              <Link to="/allAccessories"><li className="mb-3 font-semibold">ACCESSORY</li></Link>
+              <Link to="/allSneakers"><li className="mb-3 font-semibold">SNEAKERS</li></Link>
+
               <div className=" h-px bg-gray-400"></div>
                 <p className="my-3 text-base-content font-semibold">FOLLOW US ON</p>
                 <div className='flex items-center text-base-content justify-start gap-4 mt-2'>
@@ -80,10 +81,10 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal gap-6 font-semibold text-base-200">
           <NavLink to="/"><li className="hover:scale-110 ease-linear transform transition-all">HOME</li></NavLink>
-          <NavLink to="/AllProducts"><li className="hover:scale-110 ease-linear transform transition-all">JERSEY</li></NavLink>
-          <NavLink to="/AllProducts"><li className="hover:scale-110 ease-linear transform transition-all">TROUSER</li></NavLink>
-          <NavLink to="/AllProducts"><li className="hover:scale-110 ease-linear transform transition-all">ACCESSORY</li></NavLink>
-          <NavLink ><li className="hover:scale-110 ease-linear transform transition-all">ABOUT</li></NavLink>
+          <NavLink to="/allJerseys"><li className="hover:scale-110 ease-linear transform transition-all">JERSEY</li></NavLink>
+          <NavLink to="/allTrousers"><li className="hover:scale-110 ease-linear transform transition-all">TROUSER</li></NavLink>
+          <NavLink to="/allAccessories"><li className="hover:scale-110 ease-linear transform transition-all">ACCESSORY</li></NavLink>
+          <NavLink to="/allSneakers"><li className="hover:scale-110 ease-linear transform transition-all">SNEAKERS</li></NavLink>
         </ul>
       </div>
 

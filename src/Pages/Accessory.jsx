@@ -5,13 +5,13 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import useAxios from "../hooks/UseAxios";
 import LoadingCompo from "../Components/LoadingCompo";
 
-
-const BestSellers = () => {
-    
-  
-    
+const Accessory = () => {
+    const [category, setCategory] = useState("accessory");
+    const [sort, setSort] = useState("");
+    const [searchName, setSearchName] = useState("");
     const [discount, setDiscount] = useState(false);
-    const [limit, setLimit] = useState(8);
+    const [page, setPage] = useState(1);
+    const limit = 16;
     const axios = useAxios();
     const navigate = useNavigate();
 
@@ -20,13 +20,13 @@ const BestSellers = () => {
             top: 0,
             behavior: "smooth",
         });
-    }, []);
+    }, [page]);
 
     const { data, isLoading } = useQuery({
-        queryKey: ["getShoes", discount,],
+        queryKey: ["getShoes", page, category, sort, discount, searchName],
         queryFn: async () => {
             const res = await axios.get(
-                `/products?&limit=${limit}&popular=${true}&discount=${discount}`
+                `/products?page=${page}&limit=${limit}&category=${category}&sort=${sort}&discount=${discount}&search=${searchName}`
             );
             return res.data;
         },
@@ -38,6 +38,7 @@ const BestSellers = () => {
     if (isLoading) return <LoadingCompo />;
 
     const { shoes, total } = data;
+    const totalPages = Math.ceil(total / limit);
 
     return (
         <div className=" mx-auto px-4 mt-8 sm:px-6 lg:px-8 py-12">
@@ -62,10 +63,66 @@ const BestSellers = () => {
       </Helmet> */}
 
 
-              <h1 className='lg:text-2xl text-2xl  text-start mb-2'>Best Sellers</h1>
-            <hr className=" border-t-2 mb-4 lg:mb-6 w-4/12 mx-start mt-1 border-orange-600" />
+            {/* Filters */}
             <div className="flex flex-row sm:flex-wrap items-center gap-4 mb-4">
-           
+                {/* Category */}
+                {/* <select
+                    value={category}
+                    onChange={(e) => {
+                        setCategory(e.target.value);
+                        setPage(1);
+                    }}
+                    className="w-full sm:w-auto border border-gray-700 bg-black text-white rounded-lg px-4 py-2"
+                >
+                    <option value="">All</option>
+                    <option value="jersey">Jersey</option>
+                    <option value="trouser">Trouser</option>
+                    <option value="sneaker">Sneaker</option>
+                    <option value="accessory">Accessory</option>
+                </select> */}
+
+                {/* Sort */}
+                <select
+                    value={sort}
+                    onChange={(e) => {
+                        setSort(e.target.value);
+                        setPage(1);
+                    }}
+                    className="w-full sm:w-auto border border-gray-700 bg-black text-white rounded-lg px-4 py-2"
+                >
+                    <option value="">Sort by Price</option>
+                    <option value="low-high">Low → High</option>
+                    <option value="high-low">High → Low</option>
+                </select>
+
+
+            </div>
+            {/* Discount
+        <label className="flex mb-6 items-center gap-2 text-base-content cursor-pointer">
+          <input
+            type="checkbox"
+            checked={discount}
+            onChange={() => {
+              setDiscount(!discount);
+              setPage(1);
+            }}
+            className="w-4 h-4"
+          />
+          Discount Only
+        </label> */}
+            {/* Search input */}
+            <div className="mb-4 flex items-center gap-2">
+                {/* <p className='text-base-content'><Search size={36} strokeWidth={2.5} /></p> */}
+                <input
+                    type="text"
+                    placeholder="Search by product name..."
+                    value={searchName}
+                    onChange={(e) => {
+                        setSearchName(e.target.value);
+                        setPage(1); // 🔥 reset to first page
+                    }}
+                    className="input input-bordered w-full max-w-xs"
+                />
             </div>
 
             {/* Products */}
@@ -138,8 +195,39 @@ const BestSellers = () => {
                     </motion.div>
                 ))}
             </div>
+
+            {/* Pagination */}
+            <div className="flex flex-wrap w-10/12 mx-auto text-sm justify-center items-center gap-2 mt-10">
+                <button
+                    disabled={page === 1}
+                    onClick={() => setPage((prev) => prev - 1)}
+                    className="p-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    Prev
+                </button>
+
+                {Array.from({ length: totalPages }, (_, i) => (
+                    <button
+                        key={i}
+                        onClick={() => setPage(i + 1)}
+                        className={`px-4 py-2 rounded-lg transition ${page === i + 1
+                                ? "bg-black text-white"
+                                : "bg-gray-200 hover:bg-gray-300"
+                            }`}
+                    >
+                        {i + 1}
+                    </button>
+                ))}
+
+                <button
+                    disabled={page === totalPages}
+                    onClick={() => setPage((prev) => prev + 1)}
+                    className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    Next
+                </button>
+            </div>
         </div>
     );
 };
-
-export default BestSellers;
+export default Accessory;

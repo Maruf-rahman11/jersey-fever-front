@@ -129,9 +129,9 @@ const AllOrders = () => {
                     className={`px-2 py-1 rounded text-xs font-bold ${
                       order.status === "pending" && "bg-yellow-500 text-black"
                     } ${
-                      order.status === "confirmed" && "bg-green-500 text-black"
+                      order.status === "confirmed" && "bg-orange-600 text-black"
                     } ${
-                      order.status === "canceled" && "bg-red-500 text-black"
+                      order.status === "delivered" && "bg-green-500 text-black"
                     }`}
                   >
                     {order.status}
@@ -139,7 +139,7 @@ const AllOrders = () => {
                 </td>
                 <td>
                   <div className="flex gap-2">
-                    <Link to={`/adminLayout/orderDetails/${order._id}`}>
+                    <Link to={`/adminDashboard/orderDetails/${order._id}`}>
                       <button className="btn btn-sm">Details</button>
                     </Link>
                     <button

@@ -16,9 +16,9 @@ const Footer = () => {
                        <img src={logo} alt="jerseyFever" srcset="" className="lg:w-70 w-60 mx-auto" />
                   
                    </div>
-    <p className='pl-2'>
+    <p className='pl-2 lg:text-lg'>
      
-     IMPORTED JERSEY | SUBLIMATION JERSEY | <br /> TROUSER | SHORTS | SPORTS ITEMS
+     SHOP ADDRESS : <br /> <br /> PLANET SR SHOPPING MALL,3rd Floor <br /> [Lift-2], Shop NO: H-12,Zilla school road,KANDIRPAR,CUMILLA
     </p> 
   </aside>
   <nav className='pl-2'>

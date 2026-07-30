@@ -11,6 +11,11 @@ import AllItems from '../Admin dashboard/AllItems';
 import ItemDetails from '../Admin dashboard/ItemDetails';
 import UpdateItem from '../Admin dashboard/UpdateItem';
 import AllOrders from '../Admin dashboard/AllOrders';
+import Jersey from '../Pages/Jersey';
+import Trousers from '../Pages/Trousers';
+import Accessory from '../Pages/Accessory';
+import Sneakers from '../Pages/Sneakers';
+import OrderDetails from '../Admin dashboard/OrderDetails';
 
 const router = createBrowserRouter([
   {
@@ -40,6 +45,22 @@ const router = createBrowserRouter([
       {
         path: '/deliveryPage',
         element: <DeliveryPage></DeliveryPage>
+      },
+      {
+        path: '/allJerseys',
+        element: <Jersey></Jersey>
+      },
+      {
+        path: '/allTrousers',
+        element: <Trousers></Trousers>
+      },
+      {
+        path: '/allAccessories',
+        element: <Accessory></Accessory>
+      },
+      {
+        path: '/allSneakers',
+        element: <Sneakers></Sneakers>
       }
     ]
   },
@@ -49,7 +70,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <AllProducts></AllProducts>
+        element: <AllItems></AllItems>
       },
       {
         path: '/adminDashboard/allItems',
@@ -70,6 +91,10 @@ const router = createBrowserRouter([
       {
         path: '/adminDashboard/allOrders',
         element: <AllOrders></AllOrders>
+      },
+      {
+        path: '/adminDashboard/orderDetails/:id',
+        element: <OrderDetails></OrderDetails>
       }
     ]
   }

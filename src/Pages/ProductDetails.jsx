@@ -6,6 +6,7 @@ import BestSellers from "../Components/BestSellers";
 import { Helmet } from "react-helmet";
 import LoadingCompo from "../Components/LoadingCompo";
 import CartContext  from "../Context/CartContext";
+import { Banknote, ShieldCheck, ShoppingBag, SquareArrowOutUpRight, TruckElectric } from "lucide-react";
 
 
 const ProductDetails = () => {
@@ -180,7 +181,7 @@ if (quantity > stock) {
       <div>
         <img
           src={product.images?.[selectedImage]}
-          className="aspect-square lg:w-11/12 mx-auto rounded-xl"
+          className="aspect-square lg:w-12/12 mx-auto rounded-xl"
         />
 
         <div className="flex gap-3 mt-3">
@@ -204,11 +205,11 @@ if (quantity > stock) {
 
         <h1 className="text-3xl font-bold">{product.name}</h1>
 
-        <p>
+        <p className="text-2xl">
           {product.discountPrice > 0 ? (
             <>
               {product.discountPrice}৳
-              <span className="line-through ml-3 text-red-700">
+              <span className="line-through ml-3 text-orange-600">
                 {product.price}৳
               </span>
             </>
@@ -233,7 +234,7 @@ if (quantity > stock) {
                   onClick={() => setSelectedSize(s)}
                   className={`w-10 h-10 border rounded ${
                     selectedSize === s
-                      ? " bg-orange-600 text-base-200 border border-base-content"
+                      ? " bg-orange-600 text-base-200 border-2 border-base-content"
                       : "bg-orange-600 text-base-200"
                   }`}
                 >
@@ -250,12 +251,12 @@ if (quantity > stock) {
 
         {/* QUANTITY */}
          <h2 className="font-semibold mt-6 mb-4">Add Quantity</h2>
-        <div className="flex items-center justify-between border px-3 py-1 w-3/12 rounded">
-            <button onClick={() => quantity > 1 && setQuantity(quantity - 1)}>
+        <div className="grid grid-cols-3 border  w-3/12 rounded">
+            <button className="cursor-pointer active:bg-orange-600 py-1 hover:bg-orange-600" onClick={() => quantity > 1 && setQuantity(quantity - 1)}>
               -
             </button>
-            <span className="px-3">{quantity}</span>
-            <button onClick={() => setQuantity(quantity + 1)}>+</button>
+            <span className="py-1 px-3">{quantity}</span>
+            <button className="cursor-pointer py-1 active:bg-orange-600 hover:bg-orange-600" onClick={() => setQuantity(quantity + 1)}>+</button>
           </div>
 
 
@@ -264,25 +265,39 @@ if (quantity > stock) {
 
           <button
             onClick={handleAddToCart}
-            className="px-6 py-3 border mb-3  rounded w-full hover:bg-white hover:text-black"
+            className="px-6 py-3 border mb-3   rounded w-full hover:bg-orange-600 cursor-pointer transition-all duration-300 ease-in-out  hover:text-base-200"
           >
-            Add to Cart
+             <span className="flex justify-center items-center gap-2"> <ShoppingBag />  Add to cart</span>
           </button>
 
           <button
             onClick={handleCheckOut}
-            className="px-6 py-3 border rounded w-full hover:bg-white hover:text-black"
+            className="px-6 py-3 border rounded w-full hover:bg-base-200  bg-orange-600 cursor-pointer transition-all duration-300 ease-in-out  hover:text-base-content text-base-200"
           >
-            Checkout
+           <span className="flex justify-center items-center gap-2"> <SquareArrowOutUpRight />  Checkout</span>
           </button>
+        </div>
+        <div className="grid grid-cols-3 lg:mt-10 mt-10 gap-2">
+          <div className="flex flex-col items-center justify-center text-center">
+            <p className="text-center"><ShieldCheck className="text-orange-600" size={50} strokeWidth={2} /></p>
+            <h1 className="lg:text-xl font-semibold">100% Authentic</h1>
+          </div>
+          <div className="flex flex-col items-center justify-center text-center">
+            <p><TruckElectric className="text-orange-600" size={50} strokeWidth={2} /></p>
+            <h1 className="lg:text-xl font-semibold">Fast Delivery</h1>
+          </div>
+          <div className="flex flex-col items-center justify-center text-center">
+            <p><Banknote className="text-orange-600" size={50} strokeWidth={2} /></p>
+            <h1 className="lg:text-xl font-semibold">Cash On Delivery</h1>
+          </div>
         </div>
 
       </div>
     </div>
-     <div className="flex items-center w-11/12 mx-auto my-8">
-                <div className="flex-1 h-px bg-gray-400"></div>
-                <h2 className="px-4 text-xl font-semibold text-amber-50">You may also like</h2>
-                <div className="flex-1 h-px bg-gray-400"></div>
+     <div className="flex items-center w-11/12 mx-auto mt-10">
+                <div className="flex-1 h-px bg-orange-600"></div>
+                <h2 className="px-4 text-xl font-semibold text-base-content">You may also like</h2>
+                <div className="flex-1 h-px bg-orange-600"></div>
             </div>
     <BestSellers></BestSellers>
     </div>

@@ -1,10 +1,12 @@
 import React, { useContext, useState } from "react";
 import Swal from "sweetalert2";
-import { useLocation } from "react-router";
-import LoadingCompo from "../Components/LoadingCompo";
+import { motion } from "motion/react"
+import { Link, useLocation } from "react-router";
+
 
 import useAxios from "../hooks/UseAxios";
 import CartContext from "../Context/CartContext";
+import { ShoppingBag } from "lucide-react";
 
 const DeliveryPage = () => {
     const { myCart, clearCart } = useContext(CartContext);
@@ -47,7 +49,7 @@ const DeliveryPage = () => {
         customerNumber: "",
         district: "",
         address: "",
-        deliveryZone: "Outside Dhaka",
+        deliveryZone: "other",
 
     });
 
@@ -77,7 +79,7 @@ const DeliveryPage = () => {
 
     // total price calculation
     const deliveryCharge =
-        form.deliveryZone === "Inside Cumilla /Dhaka" ? 80 : form.deliveryZone === "Outside Dhaka" ? 150 : 0;
+        form.deliveryZone === "cumilla" ? 70 : form.deliveryZone === "other" ? 150 : 0;
 
     const totalAmount = productsValue + deliveryCharge;
 
@@ -109,10 +111,10 @@ const DeliveryPage = () => {
 
 
 
-            // await axios.post("/send-confirmation-email", {
-            //     email: orderData.customer.email,
-            //     order: orderData,
-            // });
+            await axios.post("/send-confirmation-email", {
+                email: orderData.customer.email,
+                order: orderData,
+            });
 
             clearCart();
             setOrderPlaced(true);
@@ -126,34 +128,47 @@ const DeliveryPage = () => {
     };
 
     if (loading) {
-        return <div className="mx-auto text-center mt-10">
-            <LoadingCompo></LoadingCompo>
-            <p className="text-amber-50 text-4xl -mt-4">Processing Order...</p>
+        return <div className="mx-auto min-h-100 my-auto text-center mt-10">
+            <span className="loading loading-bars mb-10 text-orange-600 loading-xl"></span>
+            <p className="text-orange-600 text-4xl my-4">Processing Order...</p>
         </div>
     }
     if (orderPlaced)
         return (
-            <div className="text-amber-50 mx-auto text-center mt-10">
+            <div className="text-base-content min-h-90 flex flex-col items-center text-center justify-center mx-auto mt-10">
                
-                <p className="text-4xl -mt-10">Order has been received</p>
+                <p className="text-4xl mb-3">Order has been received</p>
                 <p>We’ll contact you soon for confirmation</p>
+                <Link to={'/'}>    
+                <motion.button
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: .5 }}
+        className=" px-8 mb-10 lg:mb-0 py-3 mt-8 bg-orange-500 lg:text-start rounded  text-white  flex gap-2 hover:scale-105 transition"
+      >
+        <ShoppingBag />
+       Continue Shopping
+      </motion.button>
+                </Link>
+               
             </div>
         );
 
     return (
         <div className="min-h-screen flex items-center justify-center lg:mx-10 lg:mt-10 mt-10">
             <div className="w-full rounded-2xl p-4 text-base-content">
-                <h1 className="text-3xl font-bold mb-10 text-center">
+                <h1 className="text-3xl font-bold mb-6 text-center">
                     Delivery Information
                 </h1>
+                <hr className=" border-t-4 w-8/12 mx-auto border-orange-600" />
 
                 {/* Cart Summary */}
                 {
                     state ?
-                        <div className="mb-6 pb-8 rounded-x border-b-2 border-black space-y-2">
+                        <div className="mb-6 mt-6 pb-8 rounded-x border-b-2 border-black space-y-2">
 
-                            <div className="flex gap-3 justify-between mb-4 text-sm">
-                                <span>
+                            <div className="flex gap-3 font-semibold justify-between mb-4 text-sm">
+                                <span> 
                                     {name} × {quantity} (Size -{size}) color -  {color}
 
                                 </span>
@@ -171,9 +186,9 @@ const DeliveryPage = () => {
                             <p className="font-bold text-right">Total: {totalAmount}৳</p>
                         </div>
                         :
-                        <div className="mb-6 pb-8 rounded-x border-b-2 border-black  space-y-2">
+                        <div className="mb-6 mt-16 pb-8 p-3 bg-orange-600 rounded text-base-200 border-b-2 border-white  space-y-2">
                             {myCart.map((item) => (
-                                <div key={item._id} className="flex gap-6 mb-4 justify-between text-sm">
+                                <div key={item._id} className="flex gap-6 font-semibold mb-4 justify-between lg:text-lg text-sm">
                                     <span >
                                         {item.name} × {item.quantity} (Size -{item.size}) 
                                     </span>
@@ -182,11 +197,11 @@ const DeliveryPage = () => {
                                     </span>
                                 </div>
                             ))}
-                            <div className="flex justify-between text-sm">
+                            <div className="flex font-semibold justify-between lg:text-lg text-sm ">
                                 <span>Delivery Charge</span>
                                 <span>-{deliveryCharge}৳</span>
                             </div>
-                            <hr className="border-base-content border" />
+                            <hr className="border-white border" />
                             <p className="font-bold text-right">Total: {totalAmount}৳</p>
                         </div>
                 }
@@ -248,8 +263,8 @@ const DeliveryPage = () => {
                         className="w-full p-3 rounded-lg border border-black bg-black/40"
                         required
                     >
-                        <option value="Inside Cumilla /Dhaka">Inside Cumilla</option>
-                        <option value="Outside Dhaka">Other</option>
+                        <option value="cumilla">Inside Cumilla</option>
+                        <option value="other">Other</option>
                     </select>
 
                     <button
