@@ -161,9 +161,11 @@ const AllProducts = () => {
                             <hr className=" border-t-2 mb-lg:mb-16 w-12/12 mx-auto my-1 border-gray-800" />
 
                             <div className="flex lg:flex-row flex-col lg:items-center lg:justify-between lg:gap-2 mt-1">
-                                <h3 className="text-sm  rounded text-base-content sm:text-base font-semibold line-clamp-2">
-                                    Edition : <span className="text-orange-600 p-1 rounded-sm">{shoe.edition}</span>
-                                </h3>
+                                {shoe.edition && (
+                                    <h3 className="text-sm  rounded text-base-content sm:text-base font-semibold line-clamp-2">
+                                        Edition : <span className="text-orange-600 p-1 rounded-sm">{shoe.edition}</span>
+                                    </h3>
+                                )}
 
                                 <div>
                                     {shoe.discountPrice > 0 ? (

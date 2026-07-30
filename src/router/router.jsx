@@ -8,6 +8,9 @@ import AddProduct from '../Admin dashboard/AddProduct';
 import Cart from '../Pages/Cart';
 import DeliveryPage from '../Pages/DeliveryPage';
 import AllItems from '../Admin dashboard/AllItems';
+import ItemDetails from '../Admin dashboard/ItemDetails';
+import UpdateItem from '../Admin dashboard/UpdateItem';
+import AllOrders from '../Admin dashboard/AllOrders';
 
 const router = createBrowserRouter([
   {
@@ -41,7 +44,7 @@ const router = createBrowserRouter([
     ]
   },
   {
- path: '/adminDashboard',
+    path: '/adminDashboard',
     element: <AdminLayout></AdminLayout>,
     children: [
       {
@@ -57,7 +60,16 @@ const router = createBrowserRouter([
         element: <AddProduct></AddProduct>
       },
       {
-
+        path: '/adminDashboard/itemDetails/:id',
+        element: <ItemDetails></ItemDetails>
+      },
+      {
+        path: '/adminDashboard/updateItem/:id',
+        element: <UpdateItem></UpdateItem>
+      },
+      {
+        path: '/adminDashboard/allOrders',
+        element: <AllOrders></AllOrders>
       }
     ]
   }

@@ -3,12 +3,14 @@ import { Camera, Menu, ShoppingBag } from 'lucide-react';
 import { Link, NavLink, useNavigate } from "react-router";
 import logo from '../assets/Jersey.png'
 import { FaFacebook, FaInstagram, FaWhatsapp } from "react-icons/fa";
+import CartContext from "../Context/CartContext";
 
 
 
 const Navbar = () => {
-//   const { cart } = use(CartContext);
+  const { myCart } = use(CartContext);
   const navigate = useNavigate();
+  const count = myCart.reduce((sum, item) => sum + item.quantity, 0);
 
   const handleCategoryChange = (e) => {
     const value = e.target.value;
@@ -91,11 +93,11 @@ const Navbar = () => {
         {/* CART */}
         <Link to="/cart" className="relative">
           <ShoppingBag size={24} className="text-base-200" />
-          {/* {count > 0 && (
+          {count > 0 && (
             <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
               {count}
             </span>
-          )} */}
+          )}
         </Link>
 
         {/* AVATAR */}

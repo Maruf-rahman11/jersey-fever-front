@@ -1,172 +1,137 @@
 import React, { use, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import Swal from "sweetalert2";
-import useAxios from "../Hooks/UseAxios";
+import useAxios from "../hooks/UseAxios";
 import BestSellers from "../Components/BestSellers";
-import jersey1 from '../assets/argentina_home.jpg'
 import { Helmet } from "react-helmet";
 import LoadingCompo from "../Components/LoadingCompo";
-
-
-
-
+import CartContext  from "../Context/CartContext";
 
 
 const ProductDetails = () => {
 
-//   const axios = useAxios();
-//   const { id } = useParams();
+  const axios = useAxios()
+  const { id } = useParams();
   const navigate = useNavigate();
-
-//   const [shoe, setShoe] = useState(null);
-  const [loading, setLoading] = useState(false);
-
+   const { addToCart, myCart } = use(CartContext);
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState(null);
-  const [selectedColor, setSelectedColor] = useState(null);
   const [quantity, setQuantity] = useState(1);
-
   const [sizeError, setSizeError] = useState(false);
-  const [colorError, setColorError] = useState(false);
 
   // ================= FETCH =================
-//   useEffect(() => {
-//     const fetchShoe = async () => {
-//       try {
-//         const res = await axios.get(`/shoes/${id}`);
-//         setShoe(res.data);
-//       } catch {
-//         Swal.fire("Error", "Failed to load product", "error");
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-//     fetchShoe();
-//   }, [id, axios]);
+  useEffect(() => {
+    const fetchShoe = async () => {
+      try {
+        const res = await axios.get(`/products/${id}`);
+        setProduct(res.data);
+      } catch {
+        Swal.fire("Error", "Failed to load product", "error");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchShoe();
+  }, [id, axios]);
 
  
 
   if (loading) return <LoadingCompo/>
-//   if (!shoe) return null;
+//   if (!product) return null;
 
-  const shoe =  {
-  _id: "1",
-  images: [jersey1,'sadadsd', 'asdadasd'],
-  name: "Brazil 2026 World Cup Home Jersey",
-  price: 1050,
-  discountPrice: 950,
-  variant: "Player Edition",
-  category: "jersey",
-  sizes: {
-    L: 10,
-    M: 2,
-    S: 3,
-  },
-}
+   // ================= STOCK CHECK =================
+  const getStock = () => {
+  if (!selectedSize) return 0;
 
-  const isAccessory =
-    shoe.category === "Shoe care" ||
-    shoe.category === "Shoe accessories";
+  return product.sizes?.[selectedSize] || 0;
+};
 
-  const variants = shoe.variants || [];
-
-  // ================= COLORS =================
-  const availableColors = isAccessory
-    ? []
-    : variants
-        .filter(v => v.color)
-        .map(v => v.color);
-
-  const selectedVariant = variants.find(v => v.color === selectedColor);
-
+console.log(getStock())
   // ================= SIZES (DEPENDS ON COLOR) =================
   const availableSizes =
-    selectedVariant?.sizes
-      ? Object.keys(selectedVariant.sizes).filter(
-          (s) => selectedVariant.sizes[s] > 0
+    product.sizes
+      ? Object.keys(product.sizes).filter(
+          (s) => product.sizes[s] > 0
         )
       : [];
-
-  // ================= STOCK CHECK =================
-  const getStock = () => {
-    if (isAccessory) return shoe.totalStock || 0;
-
-    if (selectedVariant?.stock !== undefined) {
-      return selectedVariant.stock; // caps
-    }
-
-    if (selectedVariant?.sizes && selectedSize) {
-      return selectedVariant.sizes[selectedSize] || 0;
-    }
-
-    return 0;
-  };
-
   // ================= ADD TO CART =================
+  console.log(availableSizes)
   const handleAddToCart = () => {
-    if (!isAccessory) {
-      if (!selectedColor) {
-        setColorError(true);
-        return;
-      }
-      if (!selectedSize && !selectedVariant?.stock) {
-        setSizeError(true);
-        return;
-      }
 
-      if (getStock() < quantity) {
-        Swal.fire("Error", "Out of stock", "error");
-        return;
-      }
+    if (!selectedSize) {
+      setSizeError(true);
+      Swal.fire("Select a size", "No size selected", "warning");
+      return
     }
 
-    // const cartData = {
-    //   _id: shoe._id,
-    //   name: shoe.name,
-    //   price: shoe.discountPrice > 0 ? shoe.discountPrice : shoe.price,
-    //   image: shoe.images?.[0],
-    //   size: selectedSize,
-    //   color: selectedColor,
-    //   quantity,
-    //   cost : shoe.costPrice
-    // };
+     const stock = getStock();
 
-    // const exists = cart.find(
-    //   (item) =>
-    //     item._id === cartData._id &&
-    //     item.size === cartData.size &&
-    //     item.color === cartData.color
-    // );
+  if (quantity > stock) {
+    return Swal.fire({
+      icon: "error",
+      title: "Insufficient Stock",
+      text: `Only ${stock} item${stock !== 1 ? "s" : ""} available in size ${selectedSize}.`,
+    });
+  }
+   
+    const cartData = {
+      _id: product._id,
+      name: product.name,
+      price: product.discountPrice > 0 ? product.discountPrice : product.price,
+      image: product.images?.[0],
+      size: selectedSize,
+      quantity,
+      edition: product.edition,
+      season: product.season,
+      cost : product.costPrice
+    };
 
-    // if (exists) {
-    //   return Swal.fire("Already in cart", "", "info");
-    // }
+    const exists = myCart.find(
+      (item) =>
+        item._id === cartData._id &&
+        item.size === cartData.size &&
+        item.color === cartData.color
+    );
 
-    // addToCart(cartData);
+    if (exists) {
+      return Swal.fire("Already in cart", "", "info");
+    }
+
+    addToCart(cartData);
 
     Swal.fire("Added to cart", "", "success");
   };
 
   // ================= CHECKOUT =================
   const handleCheckOut = () => {
-    if (!isAccessory) {
-      if (!selectedColor) return setColorError(true);
-      if (!selectedSize && !selectedVariant?.stock) return setSizeError(true);
-
-      if (getStock() < quantity) {
-        return Swal.fire("Error", "Out of stock", "error");
-      }
+ 
+       if (!selectedSize) {
+      setSizeError(true);
+      Swal.fire("Select a size", "No size selected", "warning");
+      return
     }
+      const stock = getStock();
 
-    navigate("/deliveryInfo", {
+if (quantity > stock) {
+  return Swal.fire({
+    icon: "error",
+    title: "Insufficient Stock",
+    text: `Only ${stock} item${stock !== 1 ? "s" : ""} available in size ${selectedSize}.`,
+  });
+}
+
+    navigate("/deliveryPage", {
       state: {
-        shoeId: shoe._id,
-        name: shoe.name,
+        shoeId: product._id,
+        name: product.name,
         quantity,
         size: selectedSize,
-        color: selectedColor,
-        price: shoe.discountPrice > 0 ? shoe.discountPrice : shoe.price,
-        cost: shoe.costPrice
+        edition: product.edition,
+        season: product.season,
+        price: product.discountPrice > 0 ? product.discountPrice : product.price,
+        cost: product.costPrice
       },
     });
   };
@@ -174,52 +139,52 @@ const ProductDetails = () => {
   // ================= UI =================
   return (
     <div className="w-11/12 mx-auto mt-10 mb-16">
-       <div className=" grid grid-cols-1 lg:grid-cols-2 gap-10 px-6 text-black">
+       <div className=" grid grid-cols-1 lg:grid-cols-2 gap-6 px-6 text-black">
 
       <Helmet>
-  <title>{`${shoe.name} | KickBox BD`}</title>
+  <title>{`${product.name} | KickBox BD`}</title>
 
   <meta
     name="description"
-    content={`Buy ${shoe.name} by ${shoe.brand} at Kickbox BD. 100% authentic ${shoe.category.toLowerCase()} with fast delivery across Bangladesh. Order online today.`}
+    content={`Buy ${product.name} by ${product.brand} at Kickbox BD. 100% authentic ${product.category.toLowerCase()} with fast delivery across Bangladesh. Order online today.`}
   />
 
   <meta
     name="keywords"
-    content={`${shoe.name}, ${shoe.category}, sneakers Bangladesh, shoes Bangladesh, Kickbox bd, kickbox, premium sneakers, authentic sneakers`}
+    content={`${product.name}, ${product.category}, sneakers Bangladesh, shoes Bangladesh, Kickbox bd, kickbox, premium sneakers, authentic sneakers`}
   />
 
   <link
     rel="canonical"
-    href={`https://kickboxbd.com/productDetails/${shoe._id}`}
+    href={`https://kickboxbd.com/productDetails/${product._id}`}
   />
 
   {/* Facebook */}
   <meta property="og:type" content="product" />
   <meta
     property="og:title"
-    content={`${shoe.name} | KickBox BD`}
+    content={`${product.name} | KickBox BD`}
   />
   <meta
     property="og:description"
-    content={`Shop authentic ${shoe.brand} ${shoe.name} with nationwide delivery across Bangladesh.`}
+    content={`Shop authentic ${product.brand} ${product.name} with nationwide delivery across Bangladesh.`}
   />
-  <meta property="og:image" content={shoe.images?.[0]} />
+  <meta property="og:image" content={product.images?.[0]} />
   <meta
     property="og:url"
-    content={`https://kickboxbd.com/productDetails/${shoe._id}`}
+    content={`https://kickboxbd.com/productDetails/${product._id}`}
   />
 </Helmet>
 
       {/* IMAGES */}
       <div>
         <img
-          src={shoe.images?.[selectedImage]}
-          className="aspect-square w-150 rounded-xl"
+          src={product.images?.[selectedImage]}
+          className="aspect-square lg:w-11/12 mx-auto rounded-xl"
         />
 
         <div className="flex gap-3 mt-3">
-          {shoe.images?.map((img, i) => (
+          {product.images?.map((img, i) => (
             <img
               key={i}
               src={img}
@@ -237,55 +202,27 @@ const ProductDetails = () => {
       {/* DETAILS */}
       <div className="space-y-4">
 
-        <h1 className="text-3xl font-bold">{shoe.name}</h1>
+        <h1 className="text-3xl font-bold">{product.name}</h1>
 
         <p>
-          {shoe.discountPrice > 0 ? (
+          {product.discountPrice > 0 ? (
             <>
-              {shoe.discountPrice}৳
+              {product.discountPrice}৳
               <span className="line-through ml-3 text-red-700">
-                {shoe.price}৳
+                {product.price}৳
               </span>
             </>
           ) : (
-            `${shoe.price}৳`
+            `${product.price}৳`
           )}
         </p>
 
-        <p>{shoe.description}</p>
+        <p>{product.description}</p>
 
-        {/* COLORS */}
-        {!isAccessory && (
-          <div>
-            <h2 className="font-semibold mb-4">Available Colors</h2>
-
-            <div className="flex gap-2 flex-wrap mt-2">
-              {availableColors.map((c) => (
-                <button
-                  key={c}
-                  onClick={() => {
-                    setSelectedColor(c);
-                    setSelectedSize(null);
-                  }}
-                  className={`px-4 py-2 rounded border ${
-                    selectedColor === c
-                      ? "bg-white text-black"
-                      : "bg-black"
-                  }`}
-                >
-                  {c}
-                </button>
-              ))}
-            </div>
-
-            {colorError && (
-              <p className="text-red-400 text-sm">Select color</p>
-            )}
-          </div>
-        )}
+        
 
         {/* SIZES */}
-        {!isAccessory && selectedColor && selectedVariant?.sizes && (
+       
           <div>
             <h2 className="font-semibold">Size</h2>
 
@@ -296,8 +233,8 @@ const ProductDetails = () => {
                   onClick={() => setSelectedSize(s)}
                   className={`w-10 h-10 border rounded ${
                     selectedSize === s
-                      ? "bg-white text-black"
-                      : "bg-black"
+                      ? " bg-orange-600 text-base-200 border border-base-content"
+                      : "bg-orange-600 text-base-200"
                   }`}
                 >
                   {s}
@@ -309,7 +246,7 @@ const ProductDetails = () => {
               <p className="text-red-400 text-sm">Select size</p>
             )}
           </div>
-        )}
+
 
         {/* QUANTITY */}
          <h2 className="font-semibold mt-6 mb-4">Add Quantity</h2>

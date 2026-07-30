@@ -87,6 +87,7 @@ const AllItems = () => {
                             <th>No.</th>
                             <th>Name</th>
                             <th>Stock</th>
+                            <th>Edition</th>
                             <th>Category</th>
                             <th>Action</th>
                         </tr>
@@ -106,10 +107,11 @@ const AllItems = () => {
                                     </div>
                                 </td>
                                 <td>{shoe.totalStock}</td>
+                                {shoe.edition ?<td>{shoe.edition}</td>: <td className='text-base-content'>N/A</td>}
                                 <td>{shoe.category}</td>
                                 <td>
                                     <div className='flex gap-2'>
-                                        <Link to={`/adminLayout/shoeDetails/${shoe._id}`}><button className='btn'>Details</button></Link>
+                                        <Link to={`/adminDashboard/itemDetails/${shoe._id}`}><button className='btn'>Details</button></Link>
 
                                         <button onClick={() => handleDelete(shoe._id)} className='btn'>Delete</button>
                                     </div>

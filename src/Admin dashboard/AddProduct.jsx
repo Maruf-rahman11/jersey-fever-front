@@ -21,7 +21,7 @@ const AddProduct = () => {
         description: "",
         images: "",
         popular: false,
-        isLive: false,
+        isLive: true,
     });
 
 
@@ -301,7 +301,7 @@ const AddProduct = () => {
                         />
                         <label>Popular Product</label>
                     </div>
-                    <div className="flex items-center gap-2">
+                    {/* <div className="flex items-center gap-2">
                         <input
                             type="checkbox"
                             onKeyDown={handleNavigation}
@@ -310,7 +310,7 @@ const AddProduct = () => {
                             onChange={handleChange}
                         />
                         <label>Website visibility</label>
-                    </div>
+                    </div> */}
                     <div className="flex items-center gap-2">
                         <input
                             type="checkbox"
@@ -357,6 +357,7 @@ const AddProduct = () => {
                         required
                     />
                     {/* SIZE STOCK INPUTS */}
+                    
                     <div className="mb-4">
                         <h2 className="font-bold mb-2">Sizes</h2>
 

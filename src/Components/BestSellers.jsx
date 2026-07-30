@@ -71,35 +71,36 @@ const BestSellers = () => {
             <div>
   <div className=' mx-auto my-8'>
         {/* Grid of Best Sellers */}
-        <div className='grid tex lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4'>
-            {products.map(boot => (
-                <motion.div
-                    key={boot.id}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                    viewport={{ once: true }}
-                    onClick={()=> Navigate(`/productDetails/${boot._id}`)}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+  {products.map((boot) => (
+    <motion.div
+      key={boot._id}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      viewport={{ once: true }}
+      onClick={() => Navigate(`/productDetails/${boot._id}`)}
+      className="bg-white rounded-lg overflow-hidden shadow-lg cursor-pointer transition-transform hover:scale-105 w-full"
+    >
+      <img
+        src={boot.img}
+        alt={boot.name}
+        loading="lazy"
+        className="w-full aspect-square object-cover"
+      />
 
-                    className="bg-white lg:h-80 lg:w-70 w-full md:w-60  mx-auto rounded-lg overflow-hidden shadow-lg cursor-pointer transition-transform hover:scale-105"
-                >
-                    <img
-                        className="w-full h-40 lg:h-64 object-fill"
-                        src={boot?.img}
-                        alt={boot.name}
-                        loading='lazy'
-                    />
-                    <div className="p-3">
-                        <p className="text-black font-semibold">{boot.name.length > 15 ? boot.name.slice(0, 15) + "..." : boot.name}</p>
-                        <div className="text-lg">
-                            {boot.price} TK
-                    </div>
-                        
-                    </div>
-                </motion.div>
-            ))}
-             
-        </div>
+      <div className="p-3">
+        <p className="text-black font-semibold text-sm md:text-base line-clamp-2 min-h-[48px]">
+          {boot.name}
+        </p>
+
+        <p className="text-base md:text-lg font-bold mt-2">
+          ৳{boot.price}
+        </p>
+      </div>
+    </motion.div>
+  ))}
+</div>
         <div className="flex items-center mt-6 text-center justify-center">
           {/* <Link to="/allCollection">
             <button className="lg:px-8 px-4 py-4 mb-6 cursor-pointer lg:text-xl border border-white text-base-content bg-base-100 backdrop-blur-sm hover:bg-black hover:text-white ease-linear transition">

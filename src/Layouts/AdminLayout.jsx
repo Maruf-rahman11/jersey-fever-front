@@ -94,7 +94,7 @@ const AdminLayout = () => {
                             </NavLink>
                         </li >
                         <li className='hover:bg-amber-50 text-xl hover:text-black'>
-                            <NavLink to={`/adminLayout/allOrders`}>
+                            <NavLink to={`/adminDashboard/allOrders`}>
                                 <FaBoxOpen className="inline-block mr-2" />
                                 Orders
                             </NavLink>

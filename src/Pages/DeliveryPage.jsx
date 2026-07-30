@@ -1,16 +1,16 @@
 import React, { useContext, useState } from "react";
-import Lottie from "lottie-react";
 import Swal from "sweetalert2";
 import { useLocation } from "react-router";
 import LoadingCompo from "../Components/LoadingCompo";
+
+import useAxios from "../hooks/UseAxios";
 import CartContext from "../Context/CartContext";
-import useAxios from "../Hooks/UseAxios";
 
 const DeliveryPage = () => {
-    const { cart, clearCart } = useContext(CartContext);
+    const { myCart, clearCart } = useContext(CartContext);
     const [orderPlaced, setOrderPlaced] = useState(false);
     const [loading, setLoading] = useState(false);
-    const axios = useAxios;
+    const axios = useAxios();
     const { state } = useLocation();
 
     const { name, quantity, size, price, shoeId, color, cost } = state || {};
@@ -27,7 +27,7 @@ const DeliveryPage = () => {
                 cost: cost,
             },
         ]
-        : cart.map((item) => ({
+        : myCart.map((item) => ({
             shoeId: item._id,
             name: item.name,
             price: item.discountPrice > 0 ? item.discountPrice : item.price,
@@ -57,7 +57,7 @@ const DeliveryPage = () => {
     };
     const productsValue = state
         ? price * quantity
-        : cart.reduce(
+        : myCart.reduce(
             (sum, item) =>
                 sum +
                 (item.discountPrice > 0 ? item.discountPrice : item.price) *
@@ -66,7 +66,7 @@ const DeliveryPage = () => {
         );
     const totalCost = state
         ? cost * quantity
-        : cart.reduce(
+        : myCart.reduce(
             (sum, item) =>
                 sum +
                 item.cost *
@@ -109,10 +109,10 @@ const DeliveryPage = () => {
 
 
 
-            await axios.post("/send-confirmation-email", {
-                email: orderData.customer.email,
-                order: orderData,
-            });
+            // await axios.post("/send-confirmation-email", {
+            //     email: orderData.customer.email,
+            //     order: orderData,
+            // });
 
             clearCart();
             setOrderPlaced(true);
@@ -134,7 +134,7 @@ const DeliveryPage = () => {
     if (orderPlaced)
         return (
             <div className="text-amber-50 mx-auto text-center mt-10">
-                <Lottie animationData={shopping} loop style={{ height: 300 }} />
+               
                 <p className="text-4xl -mt-10">Order has been received</p>
                 <p>We’ll contact you soon for confirmation</p>
             </div>
@@ -150,7 +150,7 @@ const DeliveryPage = () => {
                 {/* Cart Summary */}
                 {
                     state ?
-                        <div className="mb-6 rounded-xl border border-orange-600 space-y-2">
+                        <div className="mb-6 pb-8 rounded-x border-b-2 border-black space-y-2">
 
                             <div className="flex gap-3 justify-between mb-4 text-sm">
                                 <span>
@@ -167,15 +167,15 @@ const DeliveryPage = () => {
                                 <span>Delivery Charge</span>
                                 <span>-{deliveryCharge}৳</span>
                             </div>
-                            <hr className="border-white/30" />
+                            <hr className="border-base-content border" />
                             <p className="font-bold text-right">Total: {totalAmount}৳</p>
                         </div>
                         :
                         <div className="mb-6 pb-8 rounded-x border-b-2 border-black  space-y-2">
-                            {cart.map((item) => (
+                            {myCart.map((item) => (
                                 <div key={item._id} className="flex gap-6 mb-4 justify-between text-sm">
                                     <span >
-                                        {item.name} × {item.quantity} (Size -{item.size}) color - {item.color}
+                                        {item.name} × {item.quantity} (Size -{item.size}) 
                                     </span>
                                     <span>
                                          -{(item.discountPrice > 0 ? item.discountPrice : item.price) * item.quantity}৳
@@ -186,7 +186,7 @@ const DeliveryPage = () => {
                                 <span>Delivery Charge</span>
                                 <span>-{deliveryCharge}৳</span>
                             </div>
-                            <hr className="border-white/30" />
+                            <hr className="border-base-content border" />
                             <p className="font-bold text-right">Total: {totalAmount}৳</p>
                         </div>
                 }
