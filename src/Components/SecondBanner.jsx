@@ -15,12 +15,12 @@ const SecondBanner = () => {
                     viewport={{ once: true }}
             className='lg:pl-6 mb-6 order-1 px-4 mx-auto'>
                 {/* <div className='lg:pl-16 flex mx-auto  items-center justify-center gap-1'>
-                    <img src={logo} alt="jerseyFever" srcset="" className="lg:w-15 w-10 mx-auto" />
+                    <img src={logo} alt="jerseyFever"  className="lg:w-15 w-10 mx-auto" />
                     <h1 className="lg:text-5xl text-2xl font-semibold  mx-auto">JERSEY PALACE</h1>
                     
                 </div> */}
                 {/* <hr className=" border-t-2 mb-8 lg:mb-16 w-4/12 mx-auto mt-2 border-gray-800" /> */}
-                <img src={logo} alt="jerseyFever" srcset="" className="lg:w-140 lg:mb-0 mb-6  w-85 mx-auto" />
+                <img src={logo} alt="jerseyFever"  className="lg:w-140 lg:mb-0 mb-6  w-85 mx-auto" />
                 <div className='my-8'>
                     <p className='flex gap-2 items-center text-2xl lg:text-3xl'><span className='text-green-500'><Check size={50}/> </span>Comfortable Fabric</p> 
                     <p className='flex gap-2 items-center text-2xl lg:text-3xl'><span className='text-green-500'><Check size={50}/> </span>Top notch quality</p> 

@@ -100,6 +100,7 @@ const ItemDetails = () => {
 
 
           <p className="text-lg text-base-content font-semibold mt-6">Category:  <span className=" text-orange-600">{shoe.category}</span> </p>
+          <p className="text-lg text-base-content font-semibold mt-6">Source:  <span className=" text-orange-600">{shoe.source}</span> </p>
 
 
 
@@ -135,14 +136,17 @@ const ItemDetails = () => {
 
            <div className="mt-4">
             <h1 className="font-semibold mb-2">Available Sizes :</h1>
-            {Object.keys(shoe.sizes || {}).map(size => (
+            <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2'>
+               {Object.keys(shoe.sizes || {}).map(size => (
               <span
                 key={size}
                 className="px-3 mx-2 py-1 font-semibold border rounded"
               >
                 {size} - <span className="text-orange-600">{shoe.sizes[size]}</span> 
               </span>
-            ))}
+            ))} 
+            </div>
+          
 
           </div>
 

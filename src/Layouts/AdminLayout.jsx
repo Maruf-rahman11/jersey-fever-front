@@ -1,45 +1,64 @@
-import React, { use, useState } from 'react';
-import Navbar from '../Components/Navbar';
+import { use } from 'react';
+
 import Footer from '../Components/Footer';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router';
-import { FaArrowLeft, FaBox, FaBoxOpen, FaChartLine, FaMotorcycle, FaUserCheck } from 'react-icons/fa6';
-import { FaHome, FaMoneyCheckAlt } from 'react-icons/fa';
+import { FaArrowLeft, FaBoxOpen } from 'react-icons/fa6';
 import { GiConverseShoe } from 'react-icons/gi';
 import { RiAddLine } from 'react-icons/ri';
 import { AuthContext } from '../Context/AuthContext';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../hooks/UseAxiosSecure';
+import { useQuery } from '@tanstack/react-query';
+import LoadingCompo from '../Components/LoadingCompo';
+import { Plane } from 'lucide-react';
 
 const AdminLayout = () => {
-     
-    const {user , signOutUser} = use(AuthContext)
+
+    const { user, signOutUser } = use(AuthContext)
     const navigate = useNavigate();
-   
-    
-    const handleSignOut =()=>{
-         Swal.fire({
-                    title: "Are you sure?",
-                    text: "This action cannot be undone!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#d33",
-                    cancelButtonColor: "#3085d6",
-                    confirmButtonText: "Yes, delete it!",
-                }).then(async (result) => {
-                    if(result.isConfirmed){
-                        signOutUser()
+    const axiosSecure = useAxiosSecure();
+
+    const { data, isLoading } = useQuery({
+        queryKey: ["orders"],
+        queryFn: async () => {
+            const res = await axiosSecure.get(
+                `/pending-count`
+            );
+
+            return res.data;
+        },
+        keepPreviousData: true,
+    });
+
+    const count = data?.pendingCount
+
+
+
+    const handleSignOut = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This action cannot be undone!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                signOutUser()
                     .then(() => {
                         navigate('/');
                     })
                     .catch(error => console.log(error));
-                    }
-                    
-                 
-    });
-       
-    }
+            }
 
-    
-    
+
+        });
+
+    }
+    if (isLoading) <LoadingCompo></LoadingCompo>
+
+
     return (
         <div className=''>
 
@@ -93,10 +112,26 @@ const AdminLayout = () => {
                                 Add Product
                             </NavLink>
                         </li >
-                        <li className='hover:bg-amber-50 text-xl hover:text-black'>
+                        <li className='hover:bg-amber-50 relative text-xl hover:text-black'>
                             <NavLink to={`/adminDashboard/allOrders`}>
-                                <FaBoxOpen className="inline-block mr-2" />
+                                <FaBoxOpen className="inline-block  mr-2" />
+                                {count > 0 && (
+                                    <span className="absolute bottom-2 right-1 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                                        {count}
+                                    </span>
+                                )}
                                 Orders
+                            </NavLink>
+                        </li>
+                        <li className='hover:bg-amber-50 relative text-xl hover:text-black'>
+                            <NavLink to={`/adminDashboard/preOrders`}>
+                                <Plane size={20} strokeWidth={2} className="inline-block  mr-2" />
+                                {count > 0 && (
+                                    <span className="absolute bottom-2 right-1 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                                        {count}
+                                    </span>
+                                )}
+                                Pre Orders
                             </NavLink>
                         </li>
                         <li className='hover:bg-amber-50 text-xl hover:text-black'>

@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAxios from "../hooks/UseAxios";
-import useAxiosSecure from "../Hooks/UseAxiosSecure";
+import useAxiosSecure from "../hooks/UseAxiosSecure";
 import LoadingCompo from "../Components/LoadingCompo";
 
 const OrderDetails = () => {
@@ -14,7 +14,7 @@ const OrderDetails = () => {
     const { data: order, isLoading } = useQuery({
         queryKey: ["order", id],
         queryFn: async () => {
-            const res = await axios.get(`/orders/${id}`);
+            const res = await axiosSecure.get(`/orders/${id}`);
             return res.data;
         },
     });
@@ -24,7 +24,7 @@ const OrderDetails = () => {
         const newStatus = e.target.value;
       
         try {
-          const res = await axios.patch(`/orders/${order._id}/status`, {
+          const res = await axiosSecure.patch(`/orders/${order._id}/status`, {
             status: newStatus,
           });
       
@@ -52,7 +52,8 @@ const OrderDetails = () => {
       };
 
       const zone = order?.customer.deliveryZone
-      console.log(zone)
+      
+      const ifPre = order?.products.some(product => product.preOrder);
       
 
 
@@ -99,8 +100,9 @@ const OrderDetails = () => {
                 </p>
                 <p><span className="font-semibold">Placed At:</span> {new Date(createdAt).toLocaleString()}</p>
                 <p><span className="font-semibold">Total Amount:</span> {totalAmount}Tk</p>
+                
             </div>
-
+{ ifPre && <p className="bg-orange-600 m-4 text-center font-semibold text-base-200 w-2/12 rounded-full p-2">PRE ORDER</p>}
             {/* Customer Info */}
             <div className="bg-white/10 p-4 rounded-xl mb-6">
                 <h2 className="text-xl font-semibold ">Customer Information</h2>

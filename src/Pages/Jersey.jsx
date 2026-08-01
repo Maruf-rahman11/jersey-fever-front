@@ -11,6 +11,7 @@ const Jersey = () => {
 
     const [category, setCategory] = useState("jersey");
     const [edition, setEdition] = useState("");
+    const [source, setSource] = useState("");
     const [sort, setSort] = useState("");
     const [searchName, setSearchName] = useState("");
     const [discount, setDiscount] = useState(false);
@@ -28,10 +29,10 @@ const Jersey = () => {
     
 
     const { data, isLoading } = useQuery({
-        queryKey: ["getShoes", page, category, sort, discount, searchName, edition],
+        queryKey: ["getShoes", page, category, sort,source, discount, searchName, edition],
         queryFn: async () => {
             const res = await axios.get(
-                `/products?page=${page}&limit=${limit}&edition=${edition}&category=${category}&sort=${sort}&discount=${discount}&search=${searchName}`
+                `/products?page=${page}&limit=${limit}&source=${source}&edition=${edition}&category=${category}&sort=${sort}&discount=${discount}&search=${searchName}`
             );
             return res.data;
         },
@@ -70,7 +71,7 @@ const Jersey = () => {
 
 
             {/* Filters */}
-            <div className="flex flex-row sm:flex-wrap items-center gap-4 mb-4">
+            <div className="grid grid-cols-2 lg:w-6/12 items-center gap-4 mb-4">
                 {/* Category */}
                 <select
                     value={edition}
@@ -85,6 +86,19 @@ const Jersey = () => {
                     <option value="Player">Player Edition</option>
                     <option value="Retro">Retro Edition</option>
                 </select>
+                {/* Category */}
+                <select
+                    value={source}
+                    onChange={(e) => {
+                        setSource(e.target.value);
+                        setPage(1);
+                    }}
+                    className="w-full sm:w-auto border border-gray-700 bg-black text-white rounded-lg px-4 py-2"
+                >
+                    <option value="">All</option>
+                    <option value="club">Club</option>
+                    <option value="national">International</option>
+                </select>
 
                 {/* Sort */}
                 <select
@@ -93,7 +107,7 @@ const Jersey = () => {
                         setSort(e.target.value);
                         setPage(1);
                     }}
-                    className="w-full sm:w-auto border border-gray-700 bg-black text-white rounded-lg px-4 py-2"
+                    className="w-full sm:text-sm lg:col-span-1 col-span-2 sm:w-auto border border-gray-700 bg-black text-white rounded-lg px-4 py-2"
                 >
                     <option value="">Sort by Price</option>
                     <option value="low-high">Low → High</option>

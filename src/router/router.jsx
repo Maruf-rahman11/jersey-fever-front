@@ -16,6 +16,10 @@ import Trousers from '../Pages/Trousers';
 import Accessory from '../Pages/Accessory';
 import Sneakers from '../Pages/Sneakers';
 import OrderDetails from '../Admin dashboard/OrderDetails';
+import PrivateRoute from '../Auth/PrivateRoute';
+import Login from '../Auth/LogIn';
+import PreOrders from '../Admin dashboard/PreOrders';
+import Tshirt from '../Pages/Tshirt';
 
 const router = createBrowserRouter([
   {
@@ -59,14 +63,22 @@ const router = createBrowserRouter([
         element: <Accessory></Accessory>
       },
       {
+        path: '/tShirts',
+        element: <Tshirt></Tshirt>
+      },
+      {
         path: '/allSneakers',
         element: <Sneakers></Sneakers>
+      },
+      {
+        path:'/logIn',
+        element: <Login></Login>
       }
     ]
   },
   {
     path: '/adminDashboard',
-    element: <AdminLayout></AdminLayout>,
+    element: <PrivateRoute><AdminLayout></AdminLayout></PrivateRoute> ,
     children: [
       {
         index: true,
@@ -91,6 +103,10 @@ const router = createBrowserRouter([
       {
         path: '/adminDashboard/allOrders',
         element: <AllOrders></AllOrders>
+      },
+      {
+        path: '/adminDashboard/preOrders',
+        element: <PreOrders></PreOrders>
       },
       {
         path: '/adminDashboard/orderDetails/:id',

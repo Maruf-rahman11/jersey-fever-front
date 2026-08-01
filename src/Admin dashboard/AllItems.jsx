@@ -1,10 +1,10 @@
 import  { useState } from 'react';
-
 import { Link } from 'react-router';
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
 import Swal from 'sweetalert2';
 import useAxios from '../hooks/UseAxios';
 import LoadingCompo from '../Components/LoadingCompo';
+import useAxiosSecure from '../hooks/UseAxiosSecure';
 
 
 const AllItems = () => {
@@ -13,6 +13,7 @@ const AllItems = () => {
     const [searchName, setSearchName] = useState(""); // <-- search state
     const limit = 16;
     const axios = useAxios()
+    const axiosSecure= useAxiosSecure();
     const queryClient = useQueryClient();
     // const navigate = useNavigate();
 
@@ -43,7 +44,7 @@ const AllItems = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const res = await axios.delete(`/products/${id}`);
+                    const res = await axiosSecure.delete(`/products/${id}`);
                     if (res.data) {
                         Swal.fire("Deleted!", "product has been deleted.", "success");
                         queryClient.invalidateQueries(["allProduct"]);

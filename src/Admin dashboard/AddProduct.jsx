@@ -1,11 +1,12 @@
 import { useState } from "react";
-import UseAxiosSecure from "../Hooks/UseAxiosSecure";
 import useAxios from "../hooks/UseAxios";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../hooks/UseAxiosSecure";
 
 const AddProduct = () => {
     const [loading, setLoading] = useState(false);
     const axios = useAxios();
+    const axiosSecure = useAxiosSecure(); 
     const [previewImages, setPreviewImages] = useState([]);
     const [sizes, setSizes] = useState({});
     const [newSize, setNewSize] = useState("");
@@ -14,10 +15,11 @@ const AddProduct = () => {
         category: "",
         edition: "",
         season: "",
+        source:"",
         price: "",
         discountPrice: "",
         preOrder: false,
-        costPrice: "",
+        costPrice: "00",
         description: "",
         images: "",
         popular: false,
@@ -158,7 +160,7 @@ const AddProduct = () => {
         console.log(productData);
 
         try {
-          await axios.post("/products", productData);
+          await axiosSecure.post("/products", productData);
 
           Swal.fire("Success", "Product added", "success");
 
@@ -243,6 +245,7 @@ const AddProduct = () => {
                         <option value="trouser">Trouser</option>
                         <option value="sneaker">Sneaker</option>
                         <option value="accessory">Accessory</option>
+                        <option value="tshirt">T-shirt</option>
                     </select>
 
                     {/* VARIANT */}
@@ -258,6 +261,19 @@ const AddProduct = () => {
                             <option value="FAN">Fan Edition</option>
                             <option value="Player">Player Edition</option>
                             <option value="Retro">Retro</option>
+                        </select>
+                    )}
+
+                    {form.category === "jersey" && (
+                        <select
+                            name="source"
+                            value={form.source}
+                            onKeyDown={handleNavigation}
+                            onChange={handleChange}
+                            className="w-full p-3 bg-black/10 rounded"
+                        >
+                            <option value="national">National</option>
+                            <option value="club">Club</option>
                         </select>
                     )}
 
@@ -278,8 +294,8 @@ const AddProduct = () => {
 
                     {form.category === "sneaker" && (
                         <select
-                            name="variant"
-                            value={form.variant}
+                            name="edition"
+                            value={form.edition}
                             onKeyDown={handleNavigation}
                             onChange={handleChange}
                             className="w-full p-3 bg-black/10 rounded"
@@ -289,6 +305,7 @@ const AddProduct = () => {
                             <option value="oem">OEM</option>
                         </select>
                     )}
+                    
 
                     {/* ⭐ POPULAR */}
                     <div className="flex items-center gap-2">
@@ -346,7 +363,7 @@ const AddProduct = () => {
                         />
                     </div>
 
-                    <input
+                    {/* <input
                         type="number"
                         name="costPrice"
 
@@ -355,7 +372,7 @@ const AddProduct = () => {
                         onChange={handleChange}
                         className="p-3 w-full bg-black/10 rounded"
                         required
-                    />
+                    /> */}
                     {/* SIZE STOCK INPUTS */}
                     
                     <div className="mb-4">

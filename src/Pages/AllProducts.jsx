@@ -81,6 +81,7 @@ const AllProducts = () => {
                     <option value="trouser">Trouser</option>
                     <option value="sneaker">Sneaker</option>
                     <option value="accessory">Accessory</option>
+                    <option value="tshirt">T-Shirt</option>
                 </select>
 
                 {/* Sort */}

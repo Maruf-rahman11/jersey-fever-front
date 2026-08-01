@@ -1,16 +1,19 @@
-import React from 'react';
 import HeadBanner from '../Components/HeadBanner';
-import Footer from '../Components/Footer';
 import { motion } from "motion/react"
 import BestSellers from '../Components/BestSellers';
 import { ShieldCheck, TruckElectric, Undo2, UserSearch } from 'lucide-react';
 import SecondBanner from '../Components/SecondBanner';
-import vid from '../assets/football.mp4'
+import PreOrder from '../Components/PreOrder';
+import { Helmet } from 'react-helmet';
+
 
 
 const Home = () => {
     return (
         <div>
+            <Helmet>
+              HOME | Jersey Fever
+            </Helmet>
             {/* Marqueee */}
             <div className='bg-base-content overflow-hidden'>
                 <motion.div
@@ -42,8 +45,12 @@ const Home = () => {
             </div>
 
             <HeadBanner></HeadBanner>
+             <PreOrder></PreOrder>
+            
 
-            {/* services */}
+           
+            <BestSellers></BestSellers>
+             {/* services */}
              <div className='grid md:pl-10 lg:grid-cols-4 grid-cols-1 pl-4 gap-4 my-16 mx-2 
                items-start  text-base-content'>
 
@@ -89,8 +96,7 @@ const Home = () => {
                 </motion.div>
 
             </div>
-
-            <BestSellers></BestSellers>
+           
             
             
             
@@ -107,8 +113,8 @@ const Home = () => {
             
             
 
-            <h1 className='lg:text-4xl text-2xl  text-center mb-4 lg:mb-10'>WHY CHOOSE US??</h1>
-            <hr className=" border-t-2 mb-8 lg:mb-16 w-4/12 mx-auto mt-2 border-gray-800" />
+            {/* <h1 className='lg:text-4xl text-2xl  text-center mb-4 lg:mb-10'>WHY CHOOSE US??</h1>
+            <hr className=" border-t-2 mb-8 lg:mb-16 w-4/12 mx-auto mt-2 border-gray-800" /> */}
 
     
         </div>

@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import LoadingCompo from "../Components/LoadingCompo";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../hooks/UseAxiosSecure";
 
 
 const AllOrders = () => {
@@ -11,14 +12,14 @@ const AllOrders = () => {
   const [page, setPage] = useState(1);
   const [searchNumber, setSearchNumber] = useState(""); // <-- search state
   const axios = useAxios();
-
+  const axiosSecure = useAxiosSecure()
   const limit = 16;
   const queryClient = useQueryClient();
 
   const { data, isLoading } = useQuery({
     queryKey: ["orders", page, searchNumber],
     queryFn: async () => {
-      const res = await axios.get(
+      const res = await axiosSecure.get(
         `/orders?page=${page}&limit=${limit}&search=${searchNumber}`
       );
       
@@ -26,6 +27,8 @@ const AllOrders = () => {
     },
     keepPreviousData: true,
   });
+
+  console.log(data)
 
   const formatDateTime = (date) => {
     if (!date) return "";
@@ -50,7 +53,7 @@ const AllOrders = () => {
     });
 
     if (confirm.isConfirmed) {
-      await axios.delete(`/orders/${id}`);
+      await axiosSecure.delete(`/orders/${id}`);
       queryClient.invalidateQueries(["orders"]);
       Swal.fire("Deleted!", "Order has been deleted.", "success");
     }
@@ -88,7 +91,6 @@ const AllOrders = () => {
             <tr>
               <th>No.</th>
               <th>Customer</th>
-              <th>Order ID</th>
               <th>Placed At</th>
               <th>Products</th>
               <th>Total(DL)</th>
@@ -112,7 +114,6 @@ const AllOrders = () => {
                     {order.customer?.customerNumber}
                   </div>
                 </td>
-                <td className="text-xs break-all">{order._id}</td>
                 <td>{formatDateTime(order.createdAt)}</td>
                 <td>
                   <ul className="space-y-1">

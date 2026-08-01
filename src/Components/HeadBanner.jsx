@@ -1,14 +1,9 @@
-import React from 'react';
-import ronaldo from '../assets/ronaldo.png'
-import messi from '../assets/messi.png'
-import neymar from '../assets/neymar.png'
+
 import banner1 from '../assets/fever.jpg'
-import players from '../assets/players.png'
-import { Link, Search, ShoppingBag } from 'lucide-react';
+import {ShoppingBag } from 'lucide-react';
 import { motion } from "motion/react"
-import football from '../assets/football.mp4'
-import logo from '../assets/palace.png'
 import image from'../assets/3players.png'
+import { Link } from 'react-router';
 
 const HeadBanner = () => {
   return (
@@ -49,16 +44,20 @@ const HeadBanner = () => {
         className="text-xl font-semibold py-7 lg:text-start text-center lg:text-2xl text-base-content"
       >
         PREMIUM JERSEY. ICONIC STYLE <br /> BUILT FOR <span className="text-orange-600">TRUE FANS</span>     </motion.p>
+       
       <div className='flex lg:justify-start justify-center  items-center'>
+         <Link to={'/allProducts'}>
         <motion.button
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: .5 }}
-        className=" px-8 mb-10 lg:mb-0 py-4 bg-orange-500 lg:text-start text-white  flex gap-2 hover:scale-105 transition"
+        className=" px-8 mb-10 lg:mb-0 py-4 bg-orange-500 cursor-pointer lg:text-start text-white  flex gap-2 hover:scale-105 transition"
       >
         <ShoppingBag />
         Shop Now
       </motion.button>
+    </Link>
+        
       </div>
       
   </div>
@@ -129,7 +128,7 @@ const HeadBanner = () => {
         whileInView={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.2 }}
         viewport={{ once: true }}
-   src={image}  className='object-contain  mx-auto ' alt="" srcset="" />
+   src={image}  className='object-contain  mx-auto ' alt="" />
 </div>
 
   </div>

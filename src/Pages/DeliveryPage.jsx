@@ -15,7 +15,7 @@ const DeliveryPage = () => {
     const axios = useAxios();
     const { state } = useLocation();
 
-    const { name, quantity, size, price, shoeId, color, cost } = state || {};
+    const { name, quantity, size, price, shoeId, color, cost, preOrder } = state || {};
 
     const productsForOrder = state
         ? [
@@ -24,6 +24,7 @@ const DeliveryPage = () => {
                 name: name,
                 price: price,
                 quantity: quantity,
+                preOrder: preOrder,
                 size: size || null,
                 color: color,
                 cost: cost,
@@ -38,6 +39,8 @@ const DeliveryPage = () => {
             color: item.color,
             cost: item.cost
         }));
+
+        console.log(productsForOrder)
 
 
 
@@ -128,9 +131,10 @@ const DeliveryPage = () => {
     };
 
     if (loading) {
-        return <div className="mx-auto min-h-100 my-auto text-center mt-10">
-            <span className="loading loading-bars mb-10 text-orange-600 loading-xl"></span>
-            <p className="text-orange-600 text-4xl my-4">Processing Order...</p>
+        return <div className="mx-auto min-h-60 my-auto text-center mt-10">
+            <span className="loading loading-bars mb-6 text-orange-600 loading-xl"></span>
+            <p className="text-base-content text-3xl font-semibold my-4">Processing Order...</p>
+            <p className="text-orange-600">Wait till your order is processing</p>
         </div>
     }
     if (orderPlaced)
@@ -165,7 +169,7 @@ const DeliveryPage = () => {
                 {/* Cart Summary */}
                 {
                     state ?
-                        <div className="mb-6 mt-6 pb-8 rounded-x border-b-2 border-black space-y-2">
+                        <div className="mb-6 mt-6 pb-8 p-3 bg-orange-600 text-base-200 rounded border-b-2 border-white space-y-2">
 
                             <div className="flex gap-3 font-semibold justify-between mb-4 text-sm">
                                 <span> 
@@ -182,7 +186,7 @@ const DeliveryPage = () => {
                                 <span>Delivery Charge</span>
                                 <span>-{deliveryCharge}৳</span>
                             </div>
-                            <hr className="border-base-content border" />
+                            <hr className="border-white border" />
                             <p className="font-bold text-right">Total: {totalAmount}৳</p>
                         </div>
                         :

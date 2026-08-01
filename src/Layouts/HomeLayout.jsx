@@ -1,7 +1,6 @@
 import React from "react";
 import { Outlet, useLocation } from "react-router";
 import Navbar from "../Components/Navbar";
-import bg from "../assets/white.mp4";
 import Footer from "../Components/Footer";
 import useScrollTop from "../Utilities/UseScrollTop";
 

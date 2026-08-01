@@ -24,9 +24,9 @@ console.log(myCart)
   );
 
 
-  if(myCart.length <= 0) return <div className="flex  my-25 flex-col justify-center items-center">
+  if(myCart.length <= 0) return <div className="flex lg:my-34  my-10 flex-col justify-center items-center">
      <p className="flex justify-center items-center mb-5 text-base-content text-4xl">Cart empty!!!</p>
-  <Link to={'/'} className="btn cursor-pointer hover:text-amber-50 hover:bg-black">Continue Shopping</Link>
+  <Link to={'/'} className="btn cursor-pointer bg-orange-600 text-base-200 hover:text-amber-50 hover:bg-black">Continue Shopping</Link>
   </div>
  
 
@@ -35,10 +35,10 @@ console.log(myCart)
       {myCart.map(item => (
         <div>
             <div className="flex mx-6  gap-3  items-start " key={item._id + item.size}>
-            <img className="aspect-square w-4/12 lg:w-2/12 rounded overflow-hidden border border-orange-600" src={item.image} alt="" srcset="" />
+            <img className="aspect-square w-4/12 lg:w-2/12 rounded overflow-hidden border border-orange-600" src={item.image} alt=""  />
             <div className="flex items-start  w-full justify-between gap-2">
               <div className="text-base-content">
-          <p className="text-lg lg:mb-3 font-semibold lg:text-2xl">{item.name} (Size {item.size})</p>
+          <p className="text-lg lg:mb-3 font-semibold lg:text-2xl">{item.name} <span className="text-orange-600"> (Size {item.size})</span></p>
           
           <p className="lg:mb-3 text-sm text-base-content">Price : <span className="text-orange-600"> {item.price}Tk</span> </p>
           {item.edition && <p className="lg:mb-3 text-sm text-base-content">Edition : <span className="text-orange-600">{item.edition}</span></p>}

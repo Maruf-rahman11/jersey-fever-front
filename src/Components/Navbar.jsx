@@ -12,12 +12,15 @@ const Navbar = () => {
   const navigate = useNavigate();
   const count = myCart.reduce((sum, item) => sum + item.quantity, 0);
 
+  const phoneNumber = "8801316356274";
+  const message = `Hello, I want to order something `;
+
   const handleCategoryChange = (e) => {
     const value = e.target.value;
     if (value) navigate(value);
   };
 
-//   const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+  //   const count = cart.reduce((sum, item) => sum + item.quantity, 0);
 
 
   return (
@@ -40,31 +43,32 @@ const Navbar = () => {
 
           <div className="drawer-side">
             <label htmlFor="my-drawer-1" className="drawer-overlay"></label>
-            
+
             <ul className="menu bg-base-200/95 text-orange-500 min-h-full w-70 p-4">
-            <p className="text-2xl text-base-content font-semibold mb-6">JERSEY FEVER </p>
+              <p className="text-2xl text-base-content font-semibold mb-6">JERSEY FEVER BD</p>
               <Link to="/"><li className="mb-3 font-semibold" >HOME</li></Link>
               <Link to="/allProducts"><li className="mb-3 font-semibold">COLLECTION</li></Link>
               <Link to="/allJerseys"><li className="mb-3 font-semibold">JERSEY</li></Link>
               <Link to="/allTrousers"><li className="mb-3 font-semibold">TROUSER</li></Link>
+              <Link to="/tShirts"><li className="mb-3 font-semibold">T-SHIRT</li></Link>
               <Link to="/allAccessories"><li className="mb-3 font-semibold">ACCESSORY</li></Link>
               <Link to="/allSneakers"><li className="mb-3 font-semibold">SNEAKERS</li></Link>
 
               <div className=" h-px bg-gray-400"></div>
-                <p className="my-3 text-base-content font-semibold">FOLLOW US ON</p>
-                <div className='flex items-center text-base-content justify-start gap-4 mt-2'>
-                       <Link to={'https://www.facebook.com/share/1GwG4zRGVH/'} className='text-3xl '><FaFacebook></FaFacebook></Link>
-                       <Link className='text-3xl'><FaInstagram /></Link>
-                       <Link className='text-3xl'><FaWhatsapp /></Link>
-                     </div>
+              <p className="my-3 text-base-content font-semibold">FOLLOW US ON</p>
+              <div className='flex items-center text-base-content justify-start gap-4 mt-2'>
+                <Link to={'https://www.facebook.com/jerseyfever2.0'} className='text-3xl '><FaFacebook></FaFacebook></Link>
+                <Link to={'https://www.instagram.com/jerseyfever.bd?igsh=anExaTBuY3l4dWVx'} className='text-3xl'><FaInstagram /></Link>
+                <Link to={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`} className='text-3xl'><FaWhatsapp /></Link>
+              </div>
             </ul>
           </div>
         </div>
 
         {/* LOGO — left on lg screens */}
-        <Link to="/" className="hidden lg:flex items-center gap-2">
-          <img src={logo} alt="KickBox" className="w-50" />
-         
+        <Link to="/" className="hidden lg:flex items-center  gap-2">
+          <img src={logo} alt="jerseyFever" className="w-50" />
+
         </Link>
       </div>
 
@@ -74,22 +78,24 @@ const Navbar = () => {
         className="absolute left-1/2 -translate-x-1/2 lg:hidden"
       >
         <img src={logo} alt="KickBox" className="w-50" />
-        
+
       </Link>
 
       {/* CENTER MENU (desktop only) */}
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal gap-6 font-semibold text-base-200">
           <NavLink to="/"><li className="hover:scale-110 ease-linear transform transition-all">HOME</li></NavLink>
+          <NavLink to="/allProducts"><li className="hover:scale-110 ease-linear transform transition-all">COLLECTION</li></NavLink>
           <NavLink to="/allJerseys"><li className="hover:scale-110 ease-linear transform transition-all">JERSEY</li></NavLink>
           <NavLink to="/allTrousers"><li className="hover:scale-110 ease-linear transform transition-all">TROUSER</li></NavLink>
+          <NavLink to="/tShirts"><li className="hover:scale-110 ease-linear transform transition-all">T-SHIRT</li></NavLink>
           <NavLink to="/allAccessories"><li className="hover:scale-110 ease-linear transform transition-all">ACCESSORY</li></NavLink>
           <NavLink to="/allSneakers"><li className="hover:scale-110 ease-linear transform transition-all">SNEAKERS</li></NavLink>
         </ul>
       </div>
 
       {/* RIGHT SECTION */}
-      <div className="navbar-end flex items-center gap-4">
+      <div className="navbar-end items-center gap-4">
 
         {/* CART */}
         <Link to="/cart" className="relative">

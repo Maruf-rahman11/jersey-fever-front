@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { use } from 'react';
+import { use } from 'react';
 import { useNavigate } from 'react-router';
 import { AuthContext } from '../Context/AuthContext';
 
@@ -7,13 +7,14 @@ import { AuthContext } from '../Context/AuthContext';
 
 const axiosSecure = axios.create({
     
-    baseURL: `https://kickboxserver.vercel.app/`
-    // baseURL: `http://localhost:5000`
+    baseURL: `https://jersey-server.vercel.app`
+    // baseURL: `http://localhost:3000`
 });
 
 const useAxiosSecure = () => {
     const { user, logOut } = use(AuthContext);
-   
+    
+  
     const navigate = useNavigate();
 
     axiosSecure.interceptors.request.use(config => {
@@ -27,10 +28,10 @@ const useAxiosSecure = () => {
         return res;
     }, error => {
         const status = error.status;
-        if (status === 403) {
-            navigate('/forbidden');
-        }
-        else if (status === 401) {
+        // if (status === 403) {
+        //     navigate('/');
+        // }
+         if (status === 401) {
             logOut()
                 .then(() => {
                     navigate('/login')

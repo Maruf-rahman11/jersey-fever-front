@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import Swal from "sweetalert2";
 
-import useAxios from "../Hooks/UseAxios";
-import useAxiosSecure from "../Hooks/UseAxiosSecure";
+import useAxios from "../hooks/UseAxios";
+import useAxiosSecure from "../hooks/UseAxiosSecure";
 
 const UpdateItem = () => {
     const { id } = useParams();
@@ -50,10 +50,11 @@ const UpdateItem = () => {
                     category: product.category || "",
                     edition: product.edition || "",
                     season: product.season || "",
+                    source: product.source || "",
                     variant: product.variant || "",
                     price: product.price || "",
                     discountPrice: product.discountPrice || "",
-                    costPrice: product.costPrice || "",
+                    costPrice:  '00',
                     preOrder: product.preOrder || false,
                     popular: product.popular || false,
                     isLive: product.isLive || false,
@@ -267,7 +268,7 @@ const UpdateItem = () => {
         };
 
         try {
-            await axios.patch(
+            await axiosSecure.patch(
                 `/products/${id}`,
                 updatedProduct
             );
@@ -361,6 +362,7 @@ const UpdateItem = () => {
                         <option value="trouser">Trouser</option>
                         <option value="sneaker">Sneaker</option>
                         <option value="accessory">Accessory</option>
+                        <option value="tshirt">T-shirt</option>
                     </select>
 
                     {/* JERSEY EDITION */}
@@ -384,6 +386,23 @@ const UpdateItem = () => {
                         </select>
                     )}
 
+                     {form.category === "jersey" && (
+                        <select
+                            name="source"
+                            value={form.source}
+                            onChange={handleChange}
+                            onKeyDown={handleNavigation}
+                            className="w-full p-3 rounded bg-black/10"
+                        >
+                            <option value="national">
+                               National
+                            </option>
+                            <option value="club">
+                                Club
+                            </option>
+                        </select>
+                    )}
+
                     {/* JERSEY SEASON */}
 
                     {form.category === "jersey" && (
@@ -403,8 +422,8 @@ const UpdateItem = () => {
 
                     {form.category === "sneaker" && (
                         <select
-                            name="variant"
-                            value={form.variant}
+                            name="edition"
+                            value={form.edition}
                             onChange={handleChange}
                             onKeyDown={handleNavigation}
                             className="w-full p-3 rounded bg-black/10"
@@ -484,7 +503,7 @@ const UpdateItem = () => {
 
                     </div>
 
-                    <input
+                    {/* <input
                         type="number"
                         name="costPrice"
                         value={form.costPrice}
@@ -494,7 +513,7 @@ const UpdateItem = () => {
                         min={0}
                         className="w-full p-3 rounded bg-black/10"
                         required
-                    />
+                    /> */}
 
                                        {/* SIZES */}
 

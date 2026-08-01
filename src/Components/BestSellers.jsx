@@ -23,7 +23,7 @@ const BestSellers = () => {
     }, []);
 
     const { data, isLoading } = useQuery({
-        queryKey: ["getShoes", discount,],
+        queryKey: ["getShoes", "bestSellers", limit, discount],
         queryFn: async () => {
             const res = await axios.get(
                 `/products?&limit=${limit}&popular=${true}&discount=${discount}`
@@ -32,8 +32,6 @@ const BestSellers = () => {
         },
         placeholderData: keepPreviousData,
     });
-
-    console.log(data)
 
     if (isLoading) return <LoadingCompo />;
 
@@ -62,7 +60,7 @@ const BestSellers = () => {
       </Helmet> */}
 
 
-              <h1 className='lg:text-2xl text-2xl  text-start mb-2'>Best Sellers</h1>
+              <h1 className='lg:text-2xl text-2xl font-semibold text-start mb-2'>Best Sellers</h1>
             <hr className=" border-t-2 mb-4 lg:mb-6 w-4/12 mx-start mt-1 border-orange-600" />
             <div className="flex flex-row sm:flex-wrap items-center gap-4 mb-4">
            
